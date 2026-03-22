@@ -23,13 +23,21 @@ Then open `http://127.0.0.1:3001` in your browser. You will see:
 - **right pane**: selected file preview
 - **status bar**: connection status (hidden when connected)
 
+<img width="630" height="437" alt="image" src="https://github.com/user-attachments/assets/9a90c542-124b-45ca-badb-ff0bcf917b75" />
+
 Pick a file from the file tree. It will be shown in the right pane. Now edit that file with your favorite text editor and save it. The changes will appear in the right pane instantly.
+
+<img width="630" height="440" alt="image" src="https://github.com/user-attachments/assets/d3bd2dff-78d8-4ef9-9cda-49252bebed19" />
 
 For more options, run `peekrs --help`.
 
 # How it works
 
 The server watches the specified directory for file changes. When a file changes, it notifies clients via a WebSocket. The client then requests the new file. Simple. Effective. Yuge.
+
+# Supported files
+
+This started out for viewing HTML files as rendered by the browser. However, in principle, one could view any file with it. I added some MIME types for the most popular files one might want to view rendered. If you'd like to add a MIME type, feel free to open a pull request.
 
 # Installation
 
