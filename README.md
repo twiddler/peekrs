@@ -23,11 +23,11 @@ Then open `http://127.0.0.1:3001` in your browser. You will see:
 - **right pane**: selected file preview
 - **status bar**: connection status (hidden when connected)
 
-<img width="630" height="437" alt="image" src="https://github.com/user-attachments/assets/9a90c542-124b-45ca-badb-ff0bcf917b75" />
+<img width="630" height="437" alt="start screen" src="https://github.com/user-attachments/assets/dd760fec-989f-4492-9064-7d71f6f05855" />
 
 Pick a file from the file tree. It will be shown in the right pane. Now edit that file with your favorite text editor and save it. The changes will appear in the right pane instantly.
 
-<img width="630" height="440" alt="image" src="https://github.com/user-attachments/assets/d3bd2dff-78d8-4ef9-9cda-49252bebed19" />
+<img width="630" height="441" alt="file selected" src="https://github.com/user-attachments/assets/7df37b41-b1b8-4d32-ba5d-7744b5ba8901" />
 
 For more options, run `peekrs --help`.
 
