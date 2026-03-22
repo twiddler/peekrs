@@ -35,11 +35,13 @@ fn render_dir(path: &Path, strip_prefix: &Path, depth: usize) -> String {
             ));
 
             for line in render_dir(&entry.path(), strip_prefix, depth + 1).lines() {
-                output.push_str(&format!("<span class=\"dim\">{continuation}</span>{line}\n"));
+                output.push_str(&format!(
+                    "<span class=\"dim\">{continuation}</span>{line}\n"
+                ));
             }
         } else {
             output.push_str(&format!(
-                "<span class=\"dim\">{connector}</span><a href=\"/#{rel_path}\">{name}</a>\n",
+                "<span class=\"dim\">{connector}</span><a id=\"{rel_path}\" href=\"/#{rel_path}\">{name}</a>\n",
                 rel_path = entry.path().strip_prefix(strip_prefix).unwrap().display()
             ));
         }
