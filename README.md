@@ -1,6 +1,6 @@
 <img src="./logo.svg" alt="logo" width="130" />
 
-`peekrs` is a live-reloading file server for previewing HTML components — like Storybook, but (a heck of a lot) simpler.
+`peekrs` is a live-reloading file server for viewing rendered HTML — think Storybook, but (a heck of a lot) simpler.
 
 # Motivation
 
