@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>peekrs</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; background: #000; color: #fff; font-family: monospace; }
+.container { display: grid; grid-template-rows: 1fr auto; height: 100%; }
+.main { display: grid; grid-template-columns: 200px 6px 1fr; min-height: 0; }
+
+.tree { padding: .3em; white-space: pre; }
+.tree a { color: #fff; text-decoration: none; }
+.tree a:hover { text-decoration: underline; }
+.dir { font-weight: bold; color: #fff; }
+.dim { color: #555; }
+
+.divider { background: #222; cursor: col-resize; }
+.divider:hover, .divider.dragging { background: #444; }
+
+.preview iframe { width: 100%; height: 100%; border: none; background: #fff; }
+.empty { display: flex; align-items: center; justify-content: center; color: #666; padding: 2em; text-align: center; background: #111; height: 100%; }
+
+.status { padding: 0.5em 1em; border-top: 1px solid #333; font-size: 0.9em; }
+.status.warning { background: #530; }
+.status.error { background: #600; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="main" id="main">
+    <nav class="tree" id="tree"></nav>
+    <div class="divider" id="divider"></div>
+    <main class="preview" id="preview-container">
+      <div class="empty">Select a file from the sidebar to view it here.</div>
+    </main>
+  </div>
+  <footer class="status warning" id="log">Connecting …</footer>
+</div>
+<script>
+'use strict';
+
+var previewContainer = document.getElementById('preview-container');
+var tree = document.getElementById('tree');
+var log = document.getElementById('log');
+var main = document.getElementById('main');
+var divider = document.getElementById('divider');
+var previewFrame = null;
+
+// Resizable divider
+var dragging = false;
+
+divider.addEventListener('mousedown', function(e) {
+    dragging = true;
+    divider.classList.add('dragging');
+    document.body.style.cursor = 'col-resize';
+    previewContainer.style.pointerEvents = 'none';
+    e.preventDefault();
+});
+
+document.addEventListener('mousemove', function(e) {
+    if (!dragging) return;
+    var width = e.clientX;
+    if (width > 100 && width < window.innerWidth - 100) {
+        main.style.gridTemplateColumns = width + 'px 6px 1fr';
+    }
+});
+
+document.addEventListener('mouseup', function() {
+    dragging = false;
+    divider.classList.remove('dragging');
+    document.body.style.cursor = '';
+    previewContainer.style.pointerEvents = '';
+});
+
+async function loadTree() {
+    const r = await fetch('/tree');
+    const html = await r.text();
+    tree.innerHTML = html;
+}
+
+loadTree();
+
+function loadPreview() {
+    var file = location.hash.slice(1);
+    if (!file) {
+        previewContainer.innerHTML = '<div class="empty">Select a file from the sidebar to preview it here.</div>';
+        previewFrame = null;
+        return;
+    }
+    
+    if (!previewFrame) {
+        previewFrame = document.createElement('iframe');
+        previewContainer.innerHTML = '';
+        previewContainer.appendChild(previewFrame);
+    }
+    
+    previewFrame.src = '/raw/' + file;
+}
+
+window.addEventListener('hashchange', loadPreview);
+loadPreview();
+
+function reconnectMessage(milliseconds) {
+    return `Connection lost. Reconnecting in ${(milliseconds / 1000).toFixed(1)}s.`;
+}
+
+function connect() {
+    var ws = new WebSocket('ws://' + location.host + '/ws');
+    
+    ws.onopen = function() {
+        log.textContent = 'Connected';
+        log.classList.remove('warning', 'error');
+        log.hidden = true;
+    };
+    
+    ws.onmessage = function(e) {
+        if (e.data === 'tree') {
+            loadTree();
+        } else if (e.data.startsWith('file:')) {
+            var changedFile = e.data.slice(5);
+            var currentFile = location.hash.slice(1);
+            if (changedFile === currentFile && previewFrame && previewFrame.contentWindow) {
+                previewFrame.contentWindow.location.reload();
+            }
+        }
+    };
+    
+    ws.onclose = function() {
+        log.hidden = false;
+        log.classList.remove('warning');
+        log.classList.add('error');
+        var milliseconds = 1000;
+        log.textContent = reconnectMessage(milliseconds);
+        var countdown = setInterval(function() {
+            milliseconds -= 100;
+            if (milliseconds > 0) {
+                log.textContent = reconnectMessage(milliseconds);
+            } else {
+                clearInterval(countdown);
+                log.classList.remove('error');
+                log.classList.add('warning');
+                log.textContent = 'Connecting …';
+                connect();
+            }
+        }, 100);
+    };
+}
+
+connect();
+</script>
+</body>
+</html>
