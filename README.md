@@ -33,7 +33,7 @@ For more options, run `peekrs --help`.
 
 # How it works
 
-The server watches the specified directory for file changes. When a file changes, it notifies clients via a WebSocket. The client then requests the new file. Simple. Effective. Yuge.
+The server watches the specified directory for file changes. When a file changes, it notifies clients via a WebSocket. The client then requests the new file. Simple. Effective. Goated. 🐐
 
 # Supported files
 
