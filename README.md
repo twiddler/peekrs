@@ -35,11 +35,9 @@ For more options, run `peekrs --help`.
 
 `peekrs` watches the specified directory for file changes. When a file changes, `peekrs` notifies clients via a WebSocket. Clients then request the new file. Simple. Effective. Goated. 🐐
 
-# Supported files
+# Supported file types
 
-I use `peekrs` for continuously rendering HTML files in a web browser while working on them in a text editor. However, one can use it with other file types, too.
-
-`peekrs` serves the correct MIME types for the most popular file types one might want to continuously render in a web browser. It serves unknown files as binaries. If you'd like to add a MIME type, feel free to open a pull request.
+I use `peekrs` for continuously rendering HTML files in a web browser while working on them in a text editor. However, one can use it with other file types, too. `peekrs` serves files with the correct MIME types automatically.
 
 # Installation
 
