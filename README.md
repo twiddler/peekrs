@@ -37,9 +37,9 @@ For more options, run `peekrs --help`.
 
 # Supported files
 
-I use `peekrs` for continuously rendering HTML files in a web browser while working on them in a text editor. However, in principle, one could use it with other file types, too.
+I use `peekrs` for continuously rendering HTML files in a web browser while working on them in a text editor. However, one can use it with other file types, too.
 
-`peekrs` serves the correct MIME types for the most popular files one might want to continuously render in a web browser. It serves unknown files as binaries. If you'd like to add a MIME type, feel free to open a pull request.
+`peekrs` serves the correct MIME types for the most popular file types one might want to continuously render in a web browser. It serves unknown files as binaries. If you'd like to add a MIME type, feel free to open a pull request.
 
 # Installation
 
