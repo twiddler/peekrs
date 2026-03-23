@@ -4,20 +4,20 @@
 
 # Motivation
 
-When building component libraries (e.g., with Askama templates), the feedback loop is slow: edit a template, switch to the browser, hit refresh, check the result, switch back to the editor, repeat.
+When building component libraries (e.g., with Askama templates), the feedback loop is slow: edit a template in the text editor, switch to the browser, hit refresh, check the result, switch back to the text editor, repeat.
 
-`peekrs` eliminates that friction. Point it at a directory of HTML files, and it serves them with a file tree and automatic reload on save. Your workflow becomes: edit a temple, check the result, repeat. Bye bye, context switching! 👋
+`peekrs` eliminates that friction. Point it to a directory of HTML files, and it serves them with a file tree and automatic reload on save. Your workflow becomes: edit a template in the text editor, check the result, repeat. Bye bye, context switching! 👋
 
 # Usage
 
-Serve your HTML files in directory `components` by running:
+Have `peekrs` watch and serve your files in directory `foo` by running:
 
 ```console
-$ peekrs components
+$ peekrs foo
 Serving http://127.0.0.1:3001 …
 ```
 
-Then open `http://127.0.0.1:3001` in your browser. You will see:
+Then open `http://127.0.0.1:3001` in your web browser. You will see:
 
 - **left pane**: file tree
 - **right pane**: selected file preview
@@ -25,7 +25,7 @@ Then open `http://127.0.0.1:3001` in your browser. You will see:
 
 <img width="630" height="437" alt="start screen" src="https://github.com/user-attachments/assets/dd760fec-989f-4492-9064-7d71f6f05855" />
 
-Pick a file from the file tree. It will be shown in the right pane. Now edit that file with your favorite text editor and save it. The changes will appear in the right pane instantly.
+Click on a file in the file tree. It will be shown in the right pane. Now edit that file with your favorite text editor and save it. The changes will appear in the right pane instantly.
 
 <img width="630" height="441" alt="file selected" src="https://github.com/user-attachments/assets/7df37b41-b1b8-4d32-ba5d-7744b5ba8901" />
 
@@ -33,11 +33,13 @@ For more options, run `peekrs --help`.
 
 # How it works
 
-The server watches the specified directory for file changes. When a file changes, it notifies clients via a WebSocket. The client then requests the new file. Simple. Effective. Goated. 🐐
+`peekrs` watches the specified directory for file changes. When a file changes, `peekrs` notifies clients via a WebSocket. The client then requests the new file. Simple. Effective. Goated. 🐐
 
 # Supported files
 
-This started out for viewing HTML files as rendered by the browser. However, in principle, one could view any file with it. I added some MIME types for the most popular files one might want to view rendered. If you'd like to add a MIME type, feel free to open a pull request.
+I use `peekrs` for continuously rendering HTML files in a web browser while working on them in a text editor. However, in principle, one could use it with other file types, too.
+
+`peekrs` serves the correct MIME types for the most popular files one might want to continuously render in a web browser. It serves unknown files as binaries. If you'd like to add a MIME type, feel free to open a pull request.
 
 # Installation
 
