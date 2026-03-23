@@ -33,7 +33,7 @@ For more options, run `peekrs --help`.
 
 # How it works
 
-`peekrs` watches the specified directory for file changes. When a file changes, `peekrs` notifies clients via a WebSocket. The client then requests the new file. Simple. Effective. Goated. 🐐
+`peekrs` watches the specified directory for file changes. When a file changes, `peekrs` notifies clients via a WebSocket. Clients then request the new file. Simple. Effective. Goated. 🐐
 
 # Supported files
 
