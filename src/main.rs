@@ -1,5 +1,4 @@
 mod args;
-mod raw;
 mod shell;
 mod tree;
 mod watcher;
@@ -11,6 +10,7 @@ use clap::Parser;
 use notify::{Event, RecursiveMode, Watcher};
 use std::{net::SocketAddr, path::PathBuf, sync::Arc};
 use tokio::sync::broadcast;
+use tower_http::services::ServeDir;
 use watcher::WatchEvent;
 
 #[derive(Clone)]
@@ -64,13 +64,13 @@ fn create_watcher(
 fn create_router(tx: broadcast::Sender<WatchEvent>, serve_dir: PathBuf) -> Router {
     let state = AppState {
         tx,
-        serve_dir: Arc::new(serve_dir),
+        serve_dir: Arc::new(serve_dir.clone()),
     };
 
     Router::new()
         .route("/", get(shell::handler))
         .route("/tree", get(tree::handler))
         .route("/ws", get(websocket::handler))
-        .route("/raw/{*path}", get(raw::handler))
+        .nest_service("/raw", ServeDir::new(serve_dir))
         .with_state(state)
 }
